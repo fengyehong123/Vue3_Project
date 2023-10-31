@@ -4,7 +4,7 @@ import {
 } from 'vue-router'
 
 import Index from '~/pages/index.vue'
-import About from '~/pages/about.vue'
+import Login from '~/pages/login.vue'
 import NotFound from '~/pages/404.vue'
 
 // 路由详情
@@ -15,9 +15,9 @@ const routes = [
         component: Index
     },
     {
-        path: '/about',
-        name: '关于页面',
-        component: About
+        path: '/login',
+        name: '登录页面',
+        component: Login
     },
     { 
         // 捕获404页面的写法

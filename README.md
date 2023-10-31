@@ -45,3 +45,80 @@ import 'virtual:windi.css'
   }
 </style>
 ```
+
+4. 配置别名
+**项目中需要导入很多组件,如果不取别名的话,导入组件的路径会写的很长**
+
+✅vite.config.js
+```javascript
+import { defineConfig } from 'vite'
+// 引入node.js中的path模块,给项目中的组件配置别名
+import path from "path"
+
+export default defineConfig({
+  resolve:{
+    alias:{
+      // 指定为src目录配置别名,别名为 ~
+      "~": path.resolve(__dirname, "src")
+    }
+  }
+})
+
+// 其他页面导入组件的时候,只需要像下面这样书写即可
+import Index from '~/pages/index.vue'
+```
+
+5. 配置路由
+✅`/router/index.js`
+```javascript
+import { 
+    createRouter,
+    createWebHashHistory
+} from 'vue-router'
+
+import Index from '~/pages/index.vue'
+
+// 路由详情
+const routes = [
+  {
+    path: '/',
+    name: '首页',
+    component: Index
+  },
+  { 
+    // 捕获404页面的专属写法
+    path: '/:pathMatch(.*)*', 
+    name: '404页面',
+    component: NotFound
+  },
+];
+
+// 路由的具体配置
+const router = createRouter({
+    // 项目中使用hash的路由模式
+    history: createWebHashHistory(),
+    routes
+});
+
+export default router
+```
+
+✅main.js
+```javascript
+import { createApp } from 'vue'
+
+import router from './router/index.js'
+
+// 创建app实例
+const app = createApp(App);
+// 使用路由
+app.use(router);
+// 将app实例挂载到节点上
+app.mount('#app');
+```
+
+✅App.vue
+```html
+<!-- 在使用路由的页面添加如下标签即可 -->
+<router-view></router-view>
+```
